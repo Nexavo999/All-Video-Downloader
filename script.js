@@ -1,51 +1,47 @@
-const apiUrl = "https://api.paxsenix.biz.id/dl/aio?url=";
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+const getVideoButton = document.getElementById("getVideoButton");
 
-async function getVideoInfo() {
-    const videoUrl = document.getElementById("videoUrl").value;
-    const loadingElement = document.getElementById("loading");
-    const formatsContainer = document.querySelector(".formats");
+themeToggle.addEventListener("click", () => {
+  const theme = document.body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  document.body.setAttribute("data-theme", theme);
+  themeIcon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
+});
 
-    // Clear previous results
-    formatsContainer.innerHTML = "";
-    loadingElement.style.display = "block";
+function getVideoInfo() {
+  const url = document.getElementById("videoUrl").value;
+  if (!url) {
+    alert("Please enter a valid video URL");
+    return;
+  }
 
-    if (!videoUrl) {
-        alert("Please enter a valid video URL.");
-        loadingElement.style.display = "none";
-        return;
-    }
-
-    try {
-        // Fetch video details from API
-        const response = await fetch(apiUrl + encodeURIComponent(videoUrl));
-        const data = await response.json();
-
-        loadingElement.style.display = "none";
-
-        // Check if response is valid
-        if (!data.ok || !data.url || data.url.length === 0) {
-            formatsContainer.innerHTML = `<p>Could not fetch video details. Please check the URL and try again.</p>`;
-            return;
-        }
-
-        // Display the available qualities
-        formatsContainer.innerHTML = "<h3>Available Qualities:</h3>";
-        data.url.forEach((format) => {
-            const btn = document.createElement("button");
-            btn.textContent = format.quality;
-            btn.onclick = () => downloadVideo(format.url);
-            formatsContainer.appendChild(btn);
-        });
-    } catch (error) {
-        console.error("Error fetching video details:", error);
-        loadingElement.style.display = "none";
-        formatsContainer.innerHTML = `<p>An error occurred. Please try again later.</p>`;
-    }
+  document.getElementById("loading").classList.remove("hidden");
+  fetch(`https://api.paxsenix.biz.id/dl/aio?url=${encodeURIComponent(url)}`)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("loading").classList.add("hidden");
+      if (data.url && data.url.length > 0) {
+        showVideoDetails(data);
+      } else {
+        alert("No data found for the provided URL.");
+      }
+    })
+    .catch(error => {
+      document.getElementById("loading").classList.add("hidden");
+      alert("An error occurred while fetching video data.");
+    });
 }
 
-function downloadVideo(videoUrl) {
-    const anchor = document.createElement("a");
-    anchor.href = videoUrl;
-    anchor.download = "video.mp4"; // Default filename for the download
-    anchor.click();
+function showVideoDetails(data) {
+  document.getElementById("videoDetails").classList.remove("hidden");
+
+  const qualitiesContainer = document.getElementById("qualities");
+  qualitiesContainer.innerHTML = "";
+
+  data.url.forEach((item, index) => {
+    const qualityButton = document.createElement("button");
+    qualityButton.textContent = item.quality;
+    qualityButton.onclick = () => window.open(item.url, "_blank");
+    qualitiesContainer.appendChild(qualityButton);
+  });
 }

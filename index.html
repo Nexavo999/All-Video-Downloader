@@ -1,19 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Downloader</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Video Downloader</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Video Downloader</h1>
-        <input type="text" id="videoUrl" placeholder="Enter video URL">
-        <button onclick="getVideoInfo()">Get Video</button>
-        <div id="loading" class="loading" style="display: none;">Loading...</div>
-        <div class="formats"></div>
-    </div>
-    <script src="script.js"></script>
+  <div class="container">
+    <header>
+      <h1>Video Downloader</h1>
+      <button id="themeToggle">
+        <i id="themeIcon" class="fas fa-moon"></i>
+      </button>
+    </header>
+    
+    <main>
+      <div class="input-container">
+        <input type="text" id="videoUrl" placeholder="Enter video URL here">
+        <button id="getVideoButton" onclick="getVideoInfo()">Get Video</button>
+      </div>
+
+      <div id="loading" class="hidden">
+        <p>Loading...</p>
+        <div class="spinner"></div>
+      </div>
+
+      <div id="videoDetails" class="hidden">
+        <img id="thumbnail" class="thumbnail hidden" alt="Video Thumbnail">
+        <h2 id="videoTitle" class="hidden"></h2>
+        <h3 id="qualityText" class="hidden">Available Qualities</h3>
+        <div id="qualities" class="qualities"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

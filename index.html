@@ -3,39 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Video Downloader</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script>
+  <title>Video Downloader</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>Video Downloader</h1>
-      <button id="themeToggle">
-        <i id="themeIcon" class="fas fa-moon"></i>
-      </button>
-    </header>
-    
-    <main>
-      <div class="input-container">
-        <input type="text" id="videoUrl" placeholder="Enter video URL here">
-        <button id="getVideoButton" onclick="getVideoInfo()">Get Video</button>
-      </div>
-
-      <div id="loading" class="hidden">
-        <p>Loading...</p>
-        <div class="spinner"></div>
-      </div>
-
-      <div id="videoDetails" class="hidden">
-        <img id="thumbnail" class="thumbnail hidden" alt="Video Thumbnail">
-        <h2 id="videoTitle" class="hidden"></h2>
-        <h3 id="qualityText" class="hidden">Available Qualities</h3>
-        <div id="qualities" class="qualities"></div>
-      </div>
-    </main>
+    <h1>Video Downloader</h1>
+    <input id="userInput" type="text" placeholder="Enter video URL">
+    <button id="fetchButton">Get Video</button>
+    <div class="response">
+      <h2>Video Details</h2>
+      <!-- Thumbnail -->
+      <img id="videoThumbnail" src="" alt="Thumbnail" class="thumbnail" />
+      <!-- Title -->
+      <p id="videoTitle">Title...</p>
+      <h3>Select Quality</h3>
+      <!-- Quality Buttons -->
+      <div id="qualityButtons"></div>
+    </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>

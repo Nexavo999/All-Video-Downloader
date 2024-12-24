@@ -1,48 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Downloader</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Video Downloader</h1>
-        <input type="text" placeholder="Enter video URL"> 
-        <button>Get Video</button>
+        <input type="text" id="videoUrl" placeholder="Enter video URL">
+        <button onclick="getVideoInfo()">Get Video</button>
+        <div id="loading" class="loading" style="display: none;">Loading...</div>
+        <div class="formats"></div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

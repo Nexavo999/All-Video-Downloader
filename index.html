@@ -4,15 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Downloader</title>
+    <!-- Link to mdui CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+    <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
-        <h1>Video Downloader</h1>
-        <input type="text" id="videoUrl" placeholder="Enter video URL">
-        <button onclick="getVideoInfo()">Get Video</button>
-        <div id="loading" class="loading" style="display: none;">Loading...</div>
-        <div class="formats"></div>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink">
+    <div class="mdui-container">
+        <div class="mdui-typo mdui-center">
+            <h1>Video Downloader</h1>
+        </div>
+        <div class="mdui-textfield">
+            <input type="text" id="videoUrl" class="mdui-textfield-input" placeholder="Enter video URL">
+        </div>
+        <button class="mdui-btn mdui-btn-raised mdui-color-theme-accent" onclick="getVideoInfo()">Get Video</button>
+        <div id="loading" class="mdui-spinner mdui-spinner-colorful" style="display: none;"></div>
+        <div class="formats mdui-row-md-4"></div>
     </div>
     <script src="script.js"></script>
 </body>

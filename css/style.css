@@ -1,3 +1,4 @@
+/* Basic Style */
 body {
     background-color: #121212;
     color: white;
@@ -57,6 +58,60 @@ p {
     background-color: #600f70;
 }
 
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    background-color: #333;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.progress-bar {
+    width: 0;
+    height: 8px;
+    background-color: #811797;
+    transition: width 0.3s ease;
+}
+
+/* Quality Buttons */
+.quality-options {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.quality-options a {
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+    padding: 12px;
+    background-color: #811797;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.quality-options a:hover {
+    background-color: #a020f0;
+}
+
+.quality-options a:active {
+    background-color: #600f70;
+}
+
+/* Message */
+.message {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* FAQ Section */
 .faq-section {
     margin-top: 25px;
 }
@@ -92,6 +147,7 @@ p {
     border-bottom: 1px solid #333;
 }
 
+/* Links */
 .links {
     margin-top: 25px;
     display: flex;
@@ -115,12 +171,14 @@ p {
     border-color: #a020f0;
 }
 
+/* Footer */
 .copyright {
     text-align: center;
     opacity: 0.5;
     padding-bottom: 10px;
 }
 
+/* Responsive Design */
 @media (max-width: 600px) {
     .container {
         width: 95%;
@@ -131,7 +189,8 @@ p {
         align-items: center;
         gap: 10px;
     }
+
     .links a {
-      padding: 6px 12px;
+        padding: 6px 12px;
     }
-}
+                   }

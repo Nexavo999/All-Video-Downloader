@@ -8,61 +8,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css"> <!-— Corrected CSS Link —->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #progress-container {
+            display: none; /* Hidden by default */
+            width: 80%;
+            margin: 20px auto;
+            height: 20px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden; /* Hide overflow of progress bar */
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50; /* Green */
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out; /* Smooth transition */
+        }
+        #download-options {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .quality-button {
+            background-color: #4CAF50; /* Same green as download button */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div>
             <h2>All Video Downloader</h2>
             <p>Easily download your favorite videos.</p>
-            <input type="text" class="input-field" placeholder="Video URL">
-            <button class="download-button">Download</button>
-
-            <div class="faq-section">
-                <p><strong>Frequently Asked Questions</strong></p>
-
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        What is All Video Downloader?
-                        <span class="material-icons">expand_more</span>
-                    </div>
-                    <div class="faq-answer">All Video Downloader is a web tool that allows you to download your favorite videos from various platforms for offline viewing. (Disclaimer: Only for legal use).</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        Is it free to use?
-                        <span class="material-icons">expand_more</span>
-                    </div>
-                    <div class="faq-answer">Yes, All Video Downloader is currently free to use.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        What video quality can I expect?
-                        <span class="material-icons">expand_more</span>
-                    </div>
-                    <div class="faq-answer">The video quality depends on the source video. All Video Downloader aims to provide the best available quality.</div>
-                </div>
+            <input type="text" class="input-field" id="videoUrl" placeholder="Video URL">
+            <button class="download-button" id="mainDownloadButton" onclick="downloadVideo()">Download</button>
+            <div id="progress-container">
+                <div id="progress-bar"></div>
             </div>
+            <div id="download-options"></div>
+            <div id="download-message" style="display: none; margin-top: 10px;"></div>
         </div>
-
-        <div class="links">
-            <a href="#">Donate</a>
-            <a href="#">Github</a>
-            <a href="#">Telegram</a>
-        </div>
-
+        <div class="links"></div>
         <div class="copyright">&copy;2025 Nexavo</div>
     </div>
-
-    <script>
-        function toggleFAQ(questionElement) {
-            const faqItem = questionElement.parentNode;
-            const answer = questionElement.nextElementSibling;
-            const icon = questionElement.querySelector('.material-icons');
-
-            questionElement.classList.toggle('active');
-            answer.style.display = answer.style.display === "block" ? "none" : "block";
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,51 +1,62 @@
-const apiUrl = "https://api.paxsenix.biz.id/dl/aio?url=";
+const apiUrl = "YOUR_API_ENDPOINT"; // Replace with your API endpoint
 
-async function getVideoInfo() {
-    const videoUrl = document.getElementById("videoUrl").value;
-    const loadingElement = document.getElementById("loading");
-    const formatsContainer = document.querySelector(".formats");
+document.getElementById('get-info').addEventListener('click', async () => {
+    const videoUrl = document.getElementById('video-url').value;
+    const resultsDiv = document.getElementById('results');
+    const progressBar = document.getElementById('progress-bar');
+    const progress = document.getElementById('progress');
+    const videoThumbnail = document.getElementById('video-thumbnail');
+    const videoTitle = document.getElementById('video-title');
+    const downloadOptions = document.getElementById('download-options');
+    const qualityButtons = document.getElementById('quality-buttons');
 
-    // Clear previous results
-    formatsContainer.innerHTML = "";
-    loadingElement.style.display = "block";
-
-    if (!videoUrl) {
-        alert("Please enter a valid video URL.");
-        loadingElement.style.display = "none";
-        return;
-    }
+    resultsDiv.classList.add('hidden'); // Hide results initially
+    downloadOptions.classList.add('hidden');
+    qualityButtons.innerHTML = ''; // Clear previous buttons
+    progressBar.classList.remove('hidden');
+    progress.style.width = '0%';
 
     try {
-        // Fetch video details from API
-        const response = await fetch(apiUrl + encodeURIComponent(videoUrl));
+        const response = await fetch(apiUrl + encodeURIComponent(videoUrl), {
+            onDownloadProgress: (progressEvent) => {
+                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                progress.style.width = `${percentCompleted}%`;
+            }
+        });
+
         const data = await response.json();
+        progressBar.classList.add('hidden');
 
-        loadingElement.style.display = "none";
-
-        // Check if response is valid
-        if (!data.ok || !data.url || data.url.length === 0) {
-            formatsContainer.innerHTML = `<p>Could not fetch video details. Please check the URL and try again.</p>`;
+        if (data.error) {
+            alert(data.error); // Simple alert for errors
             return;
         }
 
-        // Display the available qualities
-        formatsContainer.innerHTML = "<h3>Available Qualities:</h3>";
-        data.url.forEach((format) => {
-            const btn = document.createElement("button");
-            btn.textContent = format.quality;
-            btn.onclick = () => downloadVideo(format.url);
-            formatsContainer.appendChild(btn);
-        });
-    } catch (error) {
-        console.error("Error fetching video details:", error);
-        loadingElement.style.display = "none";
-        formatsContainer.innerHTML = `<p>An error occurred. Please try again later.</p>`;
-    }
-}
+        videoThumbnail.src = data.thumbnail || '';
+        videoTitle.textContent = data.title || 'N/A';
+        resultsDiv.classList.remove('hidden');
 
-function downloadVideo(videoUrl) {
-    const anchor = document.createElement("a");
-    anchor.href = videoUrl;
-    anchor.download = "video.mp4"; // Default filename for the download
-    anchor.click();
-}
+        if (data.formats && data.formats.length > 0) {
+            downloadOptions.classList.remove('hidden');
+            data.formats.forEach(format => {
+                const button = document.createElement('button');
+                button.textContent = `${format.quality} (${format.format})`;
+                button.classList.add('quality-button');
+                button.addEventListener('click', () => {
+                    // Start download
+                    const a = document.createElement('a');
+                    a.href = format.url;
+                    a.download = data.title ? `${data.title}.${format.format || 'mp4'}` : 'video.mp4';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                });
+                qualityButtons.appendChild(button);
+            });
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred.");
+        progressBar.classList.add('hidden');
+    }
+});

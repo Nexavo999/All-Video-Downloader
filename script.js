@@ -1,62 +1,73 @@
-const apiUrl = "YOUR_API_ENDPOINT"; // Replace with your API endpoint
+function toggleFAQ(questionElement) { /* ... (FAQ function remains the same) */ }
 
-document.getElementById('get-info').addEventListener('click', async () => {
-    const videoUrl = document.getElementById('video-url').value;
-    const resultsDiv = document.getElementById('results');
-    const progressBar = document.getElementById('progress-bar');
-    const progress = document.getElementById('progress');
-    const videoThumbnail = document.getElementById('video-thumbnail');
-    const videoTitle = document.getElementById('video-title');
-    const downloadOptions = document.getElementById('download-options');
-    const qualityButtons = document.getElementById('quality-buttons');
+function downloadVideo() {
+    const videoUrl = document.getElementById("videoUrl").value;
+    const messageDiv = document.getElementById("download-message");
+    const progressContainer = document.getElementById("progress-container");
+    const progressBar = document.getElementById("progress-bar");
+    const downloadOptions = document.getElementById("download-options");
+    const mainDownloadButton = document.getElementById("mainDownloadButton");
 
-    resultsDiv.classList.add('hidden'); // Hide results initially
-    downloadOptions.classList.add('hidden');
-    qualityButtons.innerHTML = ''; // Clear previous buttons
-    progressBar.classList.remove('hidden');
-    progress.style.width = '0%';
-
-    try {
-        const response = await fetch(apiUrl + encodeURIComponent(videoUrl), {
-            onDownloadProgress: (progressEvent) => {
-                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                progress.style.width = `${percentCompleted}%`;
-            }
-        });
-
-        const data = await response.json();
-        progressBar.classList.add('hidden');
-
-        if (data.error) {
-            alert(data.error); // Simple alert for errors
-            return;
-        }
-
-        videoThumbnail.src = data.thumbnail || '';
-        videoTitle.textContent = data.title || 'N/A';
-        resultsDiv.classList.remove('hidden');
-
-        if (data.formats && data.formats.length > 0) {
-            downloadOptions.classList.remove('hidden');
-            data.formats.forEach(format => {
-                const button = document.createElement('button');
-                button.textContent = `${format.quality} (${format.format})`;
-                button.classList.add('quality-button');
-                button.addEventListener('click', () => {
-                    // Start download
-                    const a = document.createElement('a');
-                    a.href = format.url;
-                    a.download = data.title ? `${data.title}.${format.format || 'mp4'}` : 'video.mp4';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                });
-                qualityButtons.appendChild(button);
-            });
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred.");
-        progressBar.classList.add('hidden');
+    if (videoUrl.trim() === "") {
+        displayMessage("Please enter a video URL.", "red");
+        return;
     }
-});
+
+    if (!videoUrl.startsWith("http://") && !videoUrl.startsWith("https://")) {
+        displayMessage("Invalid URL. Please enter a valid URL.", "red");
+        return;
+    }
+
+    messageDiv.style.display = "none"; // Hide previous messages
+    downloadOptions.style.display = "none";
+    progressContainer.style.display = "block";
+    progressBar.style.width = "0%"; // Reset progress
+    mainDownloadButton.disabled = true;
+
+    const apiUrl = `https://api.paxsenix.biz.id/dl/aio?url=${encodeURIComponent(videoUrl)}`;
+
+    fetch(apiUrl, {
+        method: 'GET',
+        headers: { 'accept': '*/*' }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        progressContainer.style.display = "none"; // Hide progress bar
+        mainDownloadButton.disabled = false;
+        if (data.ok) {
+            if (data.url && data.url.length > 0) {
+                downloadOptions.innerHTML = ""; // Clear previous options
+                data.url.forEach(item => {
+                    const button = document.createElement("button");
+                    button.classList.add("quality-button");
+                    button.textContent = item.quality || "Unknown Quality";
+                    button.onclick = () => window.open(item.url, '_blank');
+                    downloadOptions.appendChild(button);
+                });
+                downloadOptions.style.display = "block";
+            } else {
+                displayMessage("No download links found.", "orange");
+            }
+        } else {
+            displayMessage(data.message || "An error occurred.", "red");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching data:", error);
+        displayMessage("An error occurred while fetching the download links.", "red");
+        progressContainer.style.display = "none";
+        mainDownloadButton.disabled = false;
+    });
+}
+
+function displayMessage(message, color) {
+    const messageDiv = document.getElementById("download-message");
+    messageDiv.textContent = message;
+    messageDiv.style.color = color;
+    messageDiv.style.display = "block";
+}

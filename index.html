@@ -3,32 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Info Retriever</title>
-    <link rel="stylesheet" href="style.css">
+    <title>All Video Downloader</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Video Info Retriever</h1>
-        <p>Enter a video URL:</p>
-        <input type="text" id="video-url" placeholder="Video URL">
-        <button id="get-info">Get Video Info</button>
+        <div>
+            <h2>All Video Downloader</h2>
+            <p>Easily download your favorite videos.</p>
+            <input type="text" class="input-field" placeholder="Video URL">
+            <button class="download-button">Download</button>
 
-        <div id="progress-bar" class="hidden">
-            <div id="progress"></div>
+            <div class="faq-section">
+                <p><strong>Frequently Asked Questions</strong></p>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What is All Video Downloader?
+                        <span class="material-icons">expand_more</span>
+                    </div>
+                    <div class="faq-answer">All Video Downloader is a web tool that allows you to download your favorite videos from various platforms for offline viewing. (Disclaimer: Only for legal use).</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Is it free to use?
+                        <span class="material-icons">expand_more</span>
+                    </div>
+                    <div class="faq-answer">Yes, All Video Downloader is currently free to use.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What video quality can I expect?
+                        <span class="material-icons">expand_more</span>
+                    </div>
+                    <div class="faq-answer">The video quality depends on the source video. All Video Downloader aims to provide the best available quality.</div>
+                </div>
+            </div>
         </div>
 
-        <div id="results" class="hidden">
-            <div id="video-info">
-                <img id="video-thumbnail" src="" alt="Video Thumbnail">
-                <h2 id="video-title"></h2>
-            </div>
-            <div id="download-options" class="hidden">
-                <h3>Download Options:</h3>
-                <div id="quality-buttons"></div>
-            </div>
+        <div class="links">
+            <a href="#">Donate</a>
+            <a href="#">Github</a>
+            <a href="#">Telegram</a>
         </div>
-        <p class="disclaimer">Disclaimer: This tool is for educational purposes only. Please respect copyright laws.</p>
+
+        <div class="copyright">&copy;2025 Nexavo</div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        function toggleFAQ(questionElement) {
+            const faqItem = questionElement.parentNode;
+            const answer = questionElement.nextElementSibling;
+            const icon = questionElement.querySelector('.material-icons');
+
+            questionElement.classList.toggle('active');
+            answer.style.display = answer.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </body>
 </html>

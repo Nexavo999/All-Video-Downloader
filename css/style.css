@@ -1,82 +1,137 @@
-/* Basic reset */
-* {
+body {
+    background-color: #121212;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensure body covers full viewport height */
-}
-
 .container {
-    width: 500px;
-    margin: 50px auto; /* Center the container vertically and horizontally */
-    padding: 20px;
-    background-color: white; /* Add white background */
-    border-radius: 8px; /* Slightly round the corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-    flex: 1; /* Allow container to take up available space */
+    width: 90%;
+    max-width: 500px;
+    box-sizing: border-box;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distribute space between content and copyright */
-}
-.main-content{
-    flex: 1;
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 10px;
-    color: #333; /* Darker heading color */
+    margin-bottom: 20px;
 }
 
 p {
+    margin-bottom: 10px;
     text-align: center;
-    margin-bottom: 20px;
-    color: #666; /* Slightly lighter paragraph color */
 }
 
 .input-field {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
+    border: 1px solid #333;
+    background-color: #222;
+    color: white;
     box-sizing: border-box;
+    border-radius: 5px;
 }
 
 .download-button {
-    background-color: #4CAF50; /* Green */
-    border: none;
+    width: 100%;
+    padding: 14px;
+    background-color: #811797;
     color: white;
-    padding: 12px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: block; /* Make the button full width */
-    font-size: 16px;
+    border: none;
     cursor: pointer;
-    border-radius: 4px;
-    width: 100%; /* Ensure full width */
-    margin: 0 auto;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.download-button:hover {
+    background-color: #600f70;
+}
+
+.faq-section {
+    margin-top: 25px;
+}
+
+.faq-question {
+    cursor: pointer;
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.faq-question:hover {
+    background-color: #1a1a1a;
+}
+
+.faq-question .material-icons {
+    transition: transform 0.2s ease;
+    font-size: 1.5rem;
+    margin-left: 10px;
+}
+
+.faq-question.active .material-icons {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    display: none;
+    padding: 12px;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
 }
 
 .links {
-    text-align: center;
-    margin-top: 20px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.links a {
+    color: #811797;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+}
+
+.links a:hover {
+    color: #a020f0;
+    border-color: #a020f0;
 }
 
 .copyright {
     text-align: center;
-    padding: 10px 0;
-    border-top: 1px solid #eee;
-    margin-top: 20px;
+    opacity: 0.5;
+    padding-bottom: 10px;
 }
 
-/* ... (progress bar and quality button styles from previous responses) */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+    }
+
+    .links {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .links a {
+      padding: 6px 12px;
+    }
+}

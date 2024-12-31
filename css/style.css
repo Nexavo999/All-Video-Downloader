@@ -1,137 +1,68 @@
-body {
-    background-color: #121212;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-}
+/* ... (other styles you already have) ... */
 
-.container {
-    width: 90%;
-    max-width: 500px;
-    box-sizing: border-box;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-p {
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.input-field {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #333;
-    background-color: #222;
-    color: white;
-    box-sizing: border-box;
+#progress-container {
+    display: none; /* Hidden by default */
+    width: 80%;
+    margin: 20px auto;
+    height: 20px;
+    background-color: #eee;
     border-radius: 5px;
+    overflow: hidden; /* Hide overflow of progress bar */
 }
 
-.download-button {
-    width: 100%;
-    padding: 14px;
-    background-color: #811797;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: #4CAF50; /* Green */
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: width 0.3s ease-in-out; /* Smooth transition */
 }
 
-.download-button:hover {
-    background-color: #600f70;
-}
-
-.faq-section {
-    margin-top: 25px;
-}
-
-.faq-question {
-    cursor: pointer;
-    padding: 12px;
-    border-bottom: 1px solid #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.2s ease;
-}
-
-.faq-question:hover {
-    background-color: #1a1a1a;
-}
-
-.faq-question .material-icons {
-    transition: transform 0.2s ease;
-    font-size: 1.5rem;
-    margin-left: 10px;
-}
-
-.faq-question.active .material-icons {
-    transform: rotate(180deg);
-}
-
-.faq-answer {
+#download-options {
     display: none;
-    padding: 12px;
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #333;
+    margin-top: 20px;
+    text-align: center; /* Center the buttons */
 }
 
-.links {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-}
-
-.links a {
-    color: #811797;
-    text-decoration: none;
-    transition: color 0.2s ease;
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: 1px solid transparent;
-}
-
-.links a:hover {
-    color: #a020f0;
-    border-color: #a020f0;
-}
-
-.copyright {
+.quality-button {
+    background-color: #4CAF50; /* Same green as download button */
+    border: none;
+    color: white;
+    padding: 10px 20px;
     text-align: center;
-    opacity: 0.5;
-    padding-bottom: 10px;
+    text-decoration: none;
+    display: inline-block; /* Make buttons sit side-by-side */
+    font-size: 16px;
+    margin: 5px; /* Add spacing between buttons */
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-@media (max-width: 600px) {
-    .container {
-        width: 95%;
-    }
-
-    .links {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-    .links a {
-      padding: 6px 12px;
-    }
-  }
+/* Style for the main download button (if you want to be specific) */
+.download-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.input-field{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.container{
+    width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

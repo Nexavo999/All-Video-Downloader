@@ -1,73 +1,79 @@
-function toggleFAQ(questionElement) { /* ... (FAQ function remains the same) */ }
+document.getElementById('downloadButton').addEventListener('click', async () => {
+    const progressBarContainer = document.getElementById('progressBarContainer');
+    const progressBar = document.getElementById('progressBar');
+    const qualityOptions = document.getElementById('qualityOptions');
+    const messageDiv = document.getElementById('message');
 
-function downloadVideo() {
-    const videoUrl = document.getElementById("videoUrl").value;
-    const messageDiv = document.getElementById("download-message");
-    const progressContainer = document.getElementById("progress-container");
-    const progressBar = document.getElementById("progress-bar");
-    const downloadOptions = document.getElementById("download-options");
-    const mainDownloadButton = document.getElementById("mainDownloadButton");
+    // Reset UI
+    progressBarContainer.style.display = 'block';
+    progressBar.style.width = '0%';
+    messageDiv.textContent = '';
+    qualityOptions.innerHTML = '';
+    qualityOptions.style.display = 'none';
 
-    if (videoUrl.trim() === "") {
-        displayMessage("Please enter a video URL.", "red");
+    const videoUrl = document.getElementById('videoUrl').value;
+
+    if (!videoUrl) {
+        messageDiv.textContent = "Please enter a video URL.";
+        messageDiv.style.color = "red";
+        progressBarContainer.style.display = 'none';
         return;
     }
 
-    if (!videoUrl.startsWith("http://") && !videoUrl.startsWith("https://")) {
-        displayMessage("Invalid URL. Please enter a valid URL.", "red");
-        return;
-    }
+    try {
+        // Simulate progress bar animation
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 10;
+            progressBar.style.width = `${progress}%`;
+            if (progress >= 90) clearInterval(interval);
+        }, 100);
 
-    messageDiv.style.display = "none"; // Hide previous messages
-    downloadOptions.style.display = "none";
-    progressContainer.style.display = "block";
-    progressBar.style.width = "0%"; // Reset progress
-    mainDownloadButton.disabled = true;
+        // Fetch video details from API
+        const response = await fetch(
+            `https://api.paxsenix.biz.id/dl/aio?url=${encodeURIComponent(videoUrl)}`
+        );
+        const data = await response.json();
 
-    const apiUrl = `https://api.paxsenix.biz.id/dl/aio?url=${encodeURIComponent(videoUrl)}`;
+        // Stop progress bar and show 100%
+        progressBar.style.width = '100%';
+        clearInterval(interval);
 
-    fetch(apiUrl, {
-        method: 'GET',
-        headers: { 'accept': '*/*' }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        progressContainer.style.display = "none"; // Hide progress bar
-        mainDownloadButton.disabled = false;
-        if (data.ok) {
-            if (data.url && data.url.length > 0) {
-                downloadOptions.innerHTML = ""; // Clear previous options
-                data.url.forEach(item => {
-                    const button = document.createElement("button");
-                    button.classList.add("quality-button");
-                    button.textContent = item.quality || "Unknown Quality";
-                    button.onclick = () => window.open(item.url, '_blank');
-                    downloadOptions.appendChild(button);
-                });
-                downloadOptions.style.display = "block";
-            } else {
-                displayMessage("No download links found.", "orange");
-            }
+        if (data.ok && data.url && data.url.length > 0) {
+            messageDiv.textContent = "Select a quality to download:";
+            messageDiv.style.color = "white";
+            qualityOptions.style.display = 'flex';
+
+            // Generate quality buttons
+            data.url.forEach((item) => {
+                const qualityButton = document.createElement('a');
+                qualityButton.href = item.url;
+                qualityButton.textContent = item.quality;
+                qualityButton.download = ''; // Enable direct download
+                qualityButton.target = '_blank'; // Open in a new tab
+                qualityOptions.appendChild(qualityButton);
+            });
         } else {
-            displayMessage(data.message || "An error occurred.", "red");
+            messageDiv.textContent = "Failed to retrieve video details. Please try again.";
+            messageDiv.style.color = "red";
         }
-    })
-    .catch(error => {
-        console.error("Error fetching data:", error);
-        displayMessage("An error occurred while fetching the download links.", "red");
-        progressContainer.style.display = "none";
-        mainDownloadButton.disabled = false;
-    });
-}
+    } catch (error) {
+        messageDiv.textContent = "An error occurred. Please try again.";
+        messageDiv.style.color = "red";
+        console.error(error);
+    } finally {
+        // Hide the progress bar after some time
+        setTimeout(() => {
+            progressBarContainer.style.display = 'none';
+        }, 1000);
+    }
+});
 
-function displayMessage(message, color) {
-    const messageDiv = document.getElementById("download-message");
-    messageDiv.textContent = message;
-    messageDiv.style.color = color;
-    messageDiv.style.display = "block";
+function toggleFAQ(questionElement) {
+    const faqItem = questionElement.parentNode;
+    const answer = questionElement.nextElementSibling;
+    const icon = questionElement.querySelector('.material-icons');
+
+    questionElement.classList.toggle('active');
+    answer.style.display = answer.style.display === "block" ? "none" : "block";
 }
